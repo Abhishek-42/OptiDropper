@@ -50,7 +50,7 @@ export function detectGrid(
 
   const luminance = toLuminance(data, width * height);
   const threshold = otsuThreshold(luminance);
-  const dark = luminance.map((v) => v < threshold);
+  const dark = Array.from(luminance, (v) => v < threshold);
 
   const halfW = Math.floor(width / 2);
   const halfH = Math.floor(height / 2);

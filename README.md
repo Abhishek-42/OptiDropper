@@ -2,76 +2,36 @@
 
 > **Air-gapped, light-speed data transfer — AirDrop, but powered purely by light & computer vision.**
 
-Ever wanted to beam data to your phone instantly just by pointing your camera at your computer screen? That’s **Optidropper**. 
+Ever wanted to beam text or data to your phone instantly just by pointing your camera at your laptop screen? That’s **Optidropper**.
 
-Static QR codes are too small and slow. Optidropper takes QR technology, puts it on steroids, and turns any screen into a full-resolution visual transmitter while turning mobile cameras into real-time decoders. **No Wi-Fi, no Bluetooth, no pairing—just pure light.**
-
----
-
-## 🚀 Key Features
-
-- 📸 **Air-Gapped Communication**: Completely network-free optical data transmission.
-- 📐 **Full-Screen Utilization**: Uses 100% of your screen area instead of fixed 1:1 square QR codes.
-- ⚡ **High-Density Animated Matrices**: Streams sequential binary grid frames at 8–30 FPS with real-time error checking (CRC-8).
-- 📱 **Sleek Mobile App (APK)**: Built with a glassmorphic dark theme and automated CI/CD build pipeline via GitHub Actions.
-- 🏗️ **SOLID Monorepo Architecture**: Clean separation of core computer-vision logic from UI.
+Static QR codes are too small and slow. Optidropper takes QR technology to the next level, turning your computer screen into a high-speed light stream and your mobile camera into a real-time scanner. **No Wi-Fi, no Bluetooth, no pairing—just point and receive.**
 
 ---
 
-## 🛠️ Project Architecture
+## 🔥 Why Optidropper?
 
-```text
-OptiDropper/
-├── packages/
-│   └── core/                    # Pure computer vision & encoding engine (Zero UI dependencies)
-│       └── src/
-│           ├── protocol/        # Types, constants, CRC-8 checksums
-│           ├── encoder/         # UTF-8 Text → Binary stream → Grid Frames
-│           └── decoder/         # Otsu thresholding → Anchor detection → Grid sampling → Assembler
-├── apps/
-│   ├── encoder-web/             # Desktop Web App: Generates dynamic screen light stream
-│   └── decoder-mobile/          # Mobile APK (Capacitor + React): Real-time camera scanner
-└── .github/
-    └── workflows/
-        └── android-build.yml    # CI/CD: Automated APK compiler on git push
-```
+- ⚡ **Zero-Network Transfer**: Works completely offline. Perfect for secure, air-gapped environments.
+- 📺 **Full-Screen Bandwidth**: Uses your whole screen area instead of tiny square QR codes.
+- 📱 **Sleek Mobile App**: Premium dark-mode scanner app with live camera feed and progress tracking.
+- 🚀 **Instant Sync**: Continuous high-speed visual frame streaming with automatic error correction.
 
 ---
 
-## ⚡ Quick Start
+## 📲 How to Get & Install the Android App (APK)
 
-### 1. Install Dependencies
-```bash
-npm install
-```
+Getting your hands on the Optidropper app is super easy:
 
-### 2. Run the Web Encoder (PC Screen)
-```bash
-npm run dev:encoder
-# Open http://localhost:5173
-```
-
-### 3. Run the Mobile Decoder App (Browser Preview)
-```bash
-npm run dev:decoder
-# Open http://localhost:5174
-```
+1. Go to the **Actions** tab on the [Optidropper GitHub Repository](https://github.com/Abhishek-42/OptiDropper).
+2. Click on the latest completed workflow build.
+3. Scroll down to **Artifacts** and click **`s2c-decoder-debug`** to download your APK zip file.
+4. Unzip and install the `.apk` on your Android device!
 
 ---
 
-## 📦 How to get the Android APK
+## 🎯 How to Use Optidropper
 
-The repository has an automated **GitHub Action** setup. 
-
-1. Every time you push to `main`, GitHub Actions compiles the Android APK in the cloud.
-2. Go to the **Actions** tab on GitHub → Click the latest workflow run.
-3. Download **`s2c-decoder-debug`** under the **Artifacts** section!
-
----
-
-## 🧠 Tech Stack & Concepts
-
-- **Frontend**: React 19, Vite, Vanilla CSS (Glassmorphic dark design system)
-- **Native Wrapper**: Capacitor JS (Native Android Camera integration)
-- **Core Engine**: TypeScript, UTF-8 Binary Serialization, Otsu Thresholding, Quadrant Bullseye Anchor Tracking
-- **CI/CD**: GitHub Actions + Gradle Android toolchain
+1. **Open the Web Encoder** on your PC screen.
+2. **Type or paste** the text message you want to transfer.
+3. Click **Encode** and hit **Play** to start streaming the visual light stream.
+4. **Open the Optidropper App** on your phone, tap **Start Scanning**, and point your camera at the screen.
+5. Watch the progress bar fill up in real time as your data is instantly decoded!

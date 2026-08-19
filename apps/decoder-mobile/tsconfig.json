@@ -5,6 +5,10 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "noEmit": true,
+    "paths": {
+      "@s2c/core": ["../../packages/core"],
+      "@s2c/core/*": ["../../packages/core/*"]
+    }
 
   },
   "include": ["src"],

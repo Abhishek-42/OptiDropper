@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "paths": {
+      "@s2c/core": ["../../packages/core/src/index.ts"],
+      "@s2c/core/*": ["../../packages/core/src/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "../../packages/core" }]
+}

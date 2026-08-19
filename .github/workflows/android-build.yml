@@ -1,0 +1,53 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17 (required by Gradle)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build decoder web assets
+        run: npm run build --workspace=apps/decoder-mobile
+
+      - name: Add Android platform
+        run: npx cap add android
+        working-directory: apps/decoder-mobile
+
+      - name: Sync web assets to Android
+        run: npx cap sync android
+        working-directory: apps/decoder-mobile
+
+      - name: Build debug APK
+        run: |
+          cd apps/decoder-mobile/android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: s2c-decoder-debug
+          path: apps/decoder-mobile/android/app/build/outputs/apk/debug/*.apk
+          retention-days: 30

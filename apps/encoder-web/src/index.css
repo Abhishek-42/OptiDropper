@@ -1,0 +1,291 @@
+/*
+ * Design system for the encoder web app.
+ *
+ * Dark theme inspired by premium creative tools. Uses CSS custom
+ * properties so the entire palette can be swapped by changing a
+ * few variables.
+ */
+
+/* ------------------------------------------------------------------ */
+/*  Reset & Tokens                                                     */
+/* ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Surface palette */
+  --bg-primary:    #0A0A0C;
+  --bg-secondary:  #141418;
+  --bg-card:       #1A1A20;
+  --bg-card-hover: #22222A;
+
+  /* Accent */
+  --accent:        #6C5CE7;
+  --accent-glow:   rgba(108, 92, 231, 0.25);
+
+  /* Text */
+  --text-primary:  #F0F0F2;
+  --text-secondary:#8A8A96;
+  --text-muted:    #555560;
+
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(108, 92, 231, 0.4);
+
+  /* Spacing scale */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-2xl: 48px;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Layout                                                             */
+/* ------------------------------------------------------------------ */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-2xl) var(--sp-lg);
+  gap: var(--sp-xl);
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app__header {
+  text-align: center;
+}
+
+.app__title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app__subtitle {
+  margin-top: var(--sp-xs);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.app__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-xl);
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .app__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Card                                                               */
+/* ------------------------------------------------------------------ */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+  transition: border-color 0.25s var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--border-accent);
+}
+
+.card__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Text Input                                                         */
+/* ------------------------------------------------------------------ */
+
+.text-input {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.text-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.text-input::placeholder {
+  color: var(--text-muted);
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Controls                                                           */
+/* ------------------------------------------------------------------ */
+
+.controls {
+  display: flex;
+  gap: var(--sp-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn--primary:hover {
+  background: #7b6ef0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+.btn--secondary {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn--secondary:hover {
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Speed slider                                                       */
+/* ------------------------------------------------------------------ */
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.speed-control input[type="range"] {
+  accent-color: var(--accent);
+  width: 100px;
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Canvas container                                                   */
+/* ------------------------------------------------------------------ */
+
+.canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+
+/* ------------------------------------------------------------------ */
+/*  Status / info bar                                                  */
+/* ------------------------------------------------------------------ */
+
+.status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.status--active {
+  color: var(--accent);
+}

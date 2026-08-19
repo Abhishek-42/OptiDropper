@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.cache/
+*.log
+
+# Android build artifacts
+android/
+.gradle/
+*.apk
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

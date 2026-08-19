@@ -1,0 +1,20 @@
+{
+  "name": "s2c-transfer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Screen-to-Camera optical data transfer system",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:encoder": "npm run dev --workspace=apps/encoder-web",
+    "dev:decoder": "npm run dev --workspace=apps/decoder-mobile",
+    "build:encoder": "npm run build --workspace=apps/encoder-web",
+    "build:decoder": "npm run build --workspace=apps/decoder-mobile",
+    "lint": "echo \"No linter configured yet\""
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

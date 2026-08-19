@@ -51,9 +51,9 @@ export const TOTAL_HEADER_BITS =
 /*  Playback                                                           */
 /* ------------------------------------------------------------------ */
 
-export const DEFAULT_FPS = 8;
+export const DEFAULT_FPS = 10;
 export const MIN_FPS     = 2;
-export const MAX_FPS     = 30;
+export const MAX_FPS     = 10;
 
 
 /* ------------------------------------------------------------------ */

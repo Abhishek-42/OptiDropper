@@ -71,14 +71,20 @@ function calculateDataCapacity(config: GridConfig): number {
   return totalCells - anchorCells - headerCells;
 }
 
-/** Splits a string into fixed-size pieces; the last piece may be shorter. */
 function splitIntoChunks(data: string, chunkSize: number): string[] {
-  if (data.length === 0) return [''];
+  if (data.length === 0) return ['', ''];
 
   const chunks: string[] = [];
   for (let i = 0; i < data.length; i += chunkSize) {
     chunks.push(data.substring(i, i + chunkSize));
   }
+  
+  // Enforce a minimum of 2 frames so the output is always an animated "video"
+  if (chunks.length === 1) {
+    const half = Math.ceil(data.length / 2);
+    return [data.substring(0, half), data.substring(half)];
+  }
+
   return chunks;
 }
 

@@ -11,7 +11,7 @@ import { readFrame, DataAssembler } from '@s2c/core';
 import type { DecodeProgress } from '@s2c/core';
 
 
-const SCAN_INTERVAL_MS = 100; // ~10 scans per second
+const SCAN_INTERVAL_MS = 10; // Poll as fast as possible while letting UI breathe
 
 interface DecoderState {
   scanning: boolean;

@@ -51,15 +51,27 @@ jobs:
         run: npx cap sync android
         working-directory: apps/decoder-mobile
 
-      - name: Build debug APK
+      - name: Build Release APK
         run: |
           cd apps/decoder-mobile/android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
 
-      - name: Upload APK artifact
+      - name: Sign Release APK
+        run: |
+          cd apps/decoder-mobile/android
+          # Generate a temporary keystore
+          keytool -genkey -v -keystore release.keystore -alias optidropper -keyalg RSA -keysize 2048 -validity 10000 -storepass "optidropper123" -keypass "optidropper123" -dname "CN=Optidropper, O=S2C, C=US"
+          
+          # Find apksigner in Android SDK
+          BUILD_TOOLS_DIR=$(ls -d $ANDROID_HOME/build-tools/* | tail -1)
+          
+          # Sign the unsigned release APK
+          $BUILD_TOOLS_DIR/apksigner sign --ks release.keystore --ks-pass pass:optidropper123 --key-pass pass:optidropper123 --out app-release-signed.apk app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: s2c-decoder-debug
-          path: apps/decoder-mobile/android/app/build/outputs/apk/debug/*.apk
+          name: optidropper-release
+          path: apps/decoder-mobile/android/app-release-signed.apk
           retention-days: 30

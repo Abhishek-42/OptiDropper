@@ -34,7 +34,8 @@ export function useDecoder() {
   });
 
   const assemblerRef = useRef(new DataAssembler());
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeRef = useRef(false);
 
   /**
    * Begin scanning. Pass a function that returns the current
@@ -43,26 +44,39 @@ export function useDecoder() {
   const startScanning = useCallback(
     (captureFrame: () => ImageData | null) => {
       assemblerRef.current.reset();
+      activeRef.current = true;
       setState({ scanning: true, progress: initialProgress, result: null });
 
-      timerRef.current = setInterval(() => {
+      const loop = () => {
+        if (!activeRef.current) return;
+
         const frame = captureFrame();
-        if (!frame) return;
+        if (frame) {
+          const decoded = readFrame(frame);
+          if (decoded) {
+            const progress = assemblerRef.current.addFrame(decoded);
 
-        const decoded = readFrame(frame);
-        if (!decoded) return;
-
-        const progress = assemblerRef.current.addFrame(decoded);
-
-        setState((prev) => {
-          if (progress.complete) {
-            stopTimer();
-            const result = assemblerRef.current.getData();
-            return { scanning: false, progress, result };
+            setState((prev) => {
+              if (progress.complete) {
+                activeRef.current = false;
+                const result = assemblerRef.current.getData();
+                return { scanning: false, progress, result };
+              }
+              // Only update if progress actually changed to save renders
+              if (prev.progress.receivedFrames !== progress.receivedFrames) {
+                return { ...prev, progress };
+              }
+              return prev;
+            });
           }
-          return { ...prev, progress };
-        });
-      }, SCAN_INTERVAL_MS);
+        }
+
+        if (activeRef.current) {
+          timerRef.current = setTimeout(loop, SCAN_INTERVAL_MS);
+        }
+      };
+
+      timerRef.current = setTimeout(loop, SCAN_INTERVAL_MS);
     },
     [],
   );
@@ -81,8 +95,9 @@ export function useDecoder() {
   }, []);
 
   function stopTimer() {
+    activeRef.current = false;
     if (timerRef.current !== null) {
-      clearInterval(timerRef.current);
+      clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }

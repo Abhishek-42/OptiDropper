@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build core package
+        run: npm run build --workspace=packages/core
+
       - name: Build decoder web assets
         run: npm run build --workspace=apps/decoder-mobile
 

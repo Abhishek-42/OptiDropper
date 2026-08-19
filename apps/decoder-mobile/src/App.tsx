@@ -43,7 +43,7 @@ export function App() {
     <div className="app-shell">
       {/* Top bar */}
       <header className="top-bar">
-        <h1 className="top-bar__title">S2C Decoder</h1>
+        <h1 className="top-bar__title">Optidropper</h1>
         <div className="top-bar__actions">
           {isComplete && (
             <button className="icon-btn" onClick={handleReset} title="New scan">

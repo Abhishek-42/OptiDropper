@@ -1,50 +1,77 @@
-# S2C Transfer — Screen-to-Camera Optical Data Transfer
+# ⚡ Optidropper
 
-A system for transferring text data optically from a screen to a phone camera, using animated high-density visual grids. Think of it as a supercharged QR code that uses the **entire screen** and **multiple frames** to transfer more data.
+> **Air-gapped, light-speed data transfer — AirDrop, but powered purely by light & computer vision.**
 
-## Project Structure
+Ever wanted to beam data to your phone instantly just by pointing your camera at your computer screen? That’s **Optidropper**. 
 
-```
-s2c-project/
+Static QR codes are too small and slow. Optidropper takes QR technology, puts it on steroids, and turns any screen into a full-resolution visual transmitter while turning mobile cameras into real-time decoders. **No Wi-Fi, no Bluetooth, no pairing—just pure light.**
+
+---
+
+## 🚀 Key Features
+
+- 📸 **Air-Gapped Communication**: Completely network-free optical data transmission.
+- 📐 **Full-Screen Utilization**: Uses 100% of your screen area instead of fixed 1:1 square QR codes.
+- ⚡ **High-Density Animated Matrices**: Streams sequential binary grid frames at 8–30 FPS with real-time error checking (CRC-8).
+- 📱 **Sleek Mobile App (APK)**: Built with a glassmorphic dark theme and automated CI/CD build pipeline via GitHub Actions.
+- 🏗️ **SOLID Monorepo Architecture**: Clean separation of core computer-vision logic from UI.
+
+---
+
+## 🛠️ Project Architecture
+
+```text
+OptiDropper/
 ├── packages/
-│   └── core/                    # Pure protocol logic (zero UI dependencies)
+│   └── core/                    # Pure computer vision & encoding engine (Zero UI dependencies)
 │       └── src/
-│           ├── protocol/        # Types, constants, checksum utilities
-│           ├── encoder/         # Text → binary → grid frames
-│           └── decoder/         # Camera frame → grid → binary → text
+│           ├── protocol/        # Types, constants, CRC-8 checksums
+│           ├── encoder/         # UTF-8 Text → Binary stream → Grid Frames
+│           └── decoder/         # Otsu thresholding → Anchor detection → Grid sampling → Assembler
 ├── apps/
-│   ├── encoder-web/             # Desktop web app: generates the visual animation
-│   └── decoder-mobile/          # Mobile app (Capacitor APK): scans and decodes
+│   ├── encoder-web/             # Desktop Web App: Generates dynamic screen light stream
+│   └── decoder-mobile/          # Mobile APK (Capacitor + React): Real-time camera scanner
 └── .github/
     └── workflows/
-        └── android-build.yml    # CI: auto-builds APK on push
+        └── android-build.yml    # CI/CD: Automated APK compiler on git push
 ```
 
-## Quick Start
+---
 
+## ⚡ Quick Start
+
+### 1. Install Dependencies
 ```bash
-# Install all dependencies
 npm install
-
-# Run the encoder (desktop browser)
-npm run dev:encoder
-
-# Run the decoder (mobile preview in browser)
-npm run dev:decoder
 ```
 
-## How It Works
+### 2. Run the Web Encoder (PC Screen)
+```bash
+npm run dev:encoder
+# Open http://localhost:5173
+```
 
-1. **Encoder**: Type text into the web encoder → it converts the text to binary, splits it into chunks, and renders each chunk as a black-and-white grid with corner anchors.
-2. **Decoder**: Point your phone camera at the screen → the app captures frames, locates the anchor patterns, samples the grid cells, and reassembles the original text.
+### 3. Run the Mobile Decoder App (Browser Preview)
+```bash
+npm run dev:decoder
+# Open http://localhost:5174
+```
 
-## Building the APK
+---
 
-Push to the `main` branch on GitHub. The CI workflow will automatically build a debug APK and upload it as a downloadable artifact.
+## 📦 How to get the Android APK
 
-## Tech Stack
+The repository has an automated **GitHub Action** setup. 
 
-- **Core**: TypeScript (no dependencies)
-- **Encoder Web**: React + Vite
-- **Decoder Mobile**: React + Vite + Capacitor
-- **CI/CD**: GitHub Actions
+1. Every time you push to `main`, GitHub Actions compiles the Android APK in the cloud.
+2. Go to the **Actions** tab on GitHub → Click the latest workflow run.
+3. Download **`s2c-decoder-debug`** under the **Artifacts** section!
+
+---
+
+## 🧠 Tech Stack & Concepts
+
+- **Frontend**: React 19, Vite, Vanilla CSS (Glassmorphic dark design system)
+- **Native Wrapper**: Capacitor JS (Native Android Camera integration)
+- **Core Engine**: TypeScript, UTF-8 Binary Serialization, Otsu Thresholding, Quadrant Bullseye Anchor Tracking
+- **CI/CD**: GitHub Actions + Gradle Android toolchain

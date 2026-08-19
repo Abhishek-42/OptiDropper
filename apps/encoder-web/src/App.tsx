@@ -19,7 +19,7 @@ export function App() {
   return (
     <main className="app">
       <header className="app__header">
-        <h1 className="app__title">S2C Encoder</h1>
+        <h1 className="app__title">Optidropper Encoder</h1>
         <p className="app__subtitle">
           Convert text into animated visual frames for optical transfer
         </p>

@@ -53,7 +53,16 @@ export function useCamera() {
 
       setState({ active: true, error: null });
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Camera access denied';
+      let message = 'Camera access denied';
+      if (err instanceof Error) {
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          message = 'Camera permission required. Please allow camera access in your system settings.';
+        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+          message = 'No camera device found on this hardware.';
+        } else {
+          message = err.message;
+        }
+      }
       setState({ active: false, error: message });
     }
   }, []);

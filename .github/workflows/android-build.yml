@@ -36,6 +36,17 @@ jobs:
         run: npx cap add android
         working-directory: apps/decoder-mobile
 
+      - name: Inject Android Camera Permissions
+        run: |
+          MANIFEST="apps/decoder-mobile/android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST" ]; then
+            sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />' $MANIFEST
+            echo "Successfully injected CAMERA permissions into AndroidManifest.xml"
+          else
+            echo "Error: AndroidManifest.xml not found at $MANIFEST"
+            exit 1
+          fi
+
       - name: Sync web assets to Android
         run: npx cap sync android
         working-directory: apps/decoder-mobile
